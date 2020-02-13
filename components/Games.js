@@ -8,7 +8,11 @@ import {
   StatusBar,
   Platform,
   Button,
+  TouchableOpacity,
 } from 'react-native';
+
+import RandomNumberArray from './randomNumberArray';
+// import RandomNumberArray from './randomNumberArray.js';
 
 
 function Games() {
@@ -17,6 +21,7 @@ function Games() {
     // const [randomNumber, setRandomNumber] = useState([]);
 
     const [randomNumbersArray, setRandomNumbersArray] = useState([]);
+    // const [randomNumberArray, setRandomNumberArray] = useState([]);
 
     // const randomNumbers = [...Array(6)].map(()=>Math.floor(Math.random()*10));
     // .from({lenght: 6}),
@@ -42,7 +47,9 @@ function Games() {
 
     // const target = 10 + Math.floor(40 * Math.random());
 
-
+    function handleRandomPress (randomNumber) {
+        console.log(randomNumber)
+    }
     
   return (
     <ScrollView style={styles.MainContainer}>
@@ -53,15 +60,18 @@ function Games() {
             }}></Button>
         </View>
 
-        <View style={styles.randomContainer}>
-                {randomNumbersArray.map((randomNumberArray, index)=>
-                    <Text style={styles.randomItems} key={index}>{randomNumberArray}</Text>
-                )}
+        
+            <View style={styles.randomContainer}>
+                    {randomNumbersArray.map((randomNumber, index)=>
+                        <RandomNumberArray key={index} number={randomNumber} />
+                        // <TouchableOpacity key={index} onPress={()=>{handleRandomPress(randomNumber)}}>
+                        //     <Text style={styles.randomItems} >{randomNumber}</Text>
+                        // </TouchableOpacity>
+                    )}
 
-            {/* <Text style={styles.randomContainer}> {randomNumbersArray}</Text> */}
-        </View>
-
-
+                {/* <Text style={styles.randomContainer}> {randomNumbersArray}</Text> */}
+            </View>
+        
         
     </ScrollView>
   );
@@ -96,17 +106,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around', 
     },
 
-    randomItems: {
-        width: 150,
-        height: 150,
-        borderWidth: 1,
-        margin: 15,
-        justifyContent: 'center',
-        textAlign: 'center',
-        fontSize: 35,
-        paddingTop: 50,
-        backgroundColor: '#aaa',
-    }
+    // randomItems: {
+    //     width: 150,
+    //     height: 150,
+    //     borderWidth: 1,
+    //     margin: 15,
+    //     justifyContent: 'center',
+    //     textAlign: 'center',
+    //     fontSize: 35,
+    //     paddingTop: 50,
+    //     backgroundColor: '#aaa',
+    // },
+
 });
 
 export default Games;
