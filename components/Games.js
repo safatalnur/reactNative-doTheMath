@@ -53,9 +53,15 @@ function Games() {
             }}></Button>
         </View>
 
-        <View >
-            <Text style={styles.randomContainer}>{randomNumbersArray}</Text>
+        <View style={styles.randomContainer}>
+                {randomNumbersArray.map((randomNumberArray, index)=>
+                    <Text style={styles.randomItems} key={index}>{randomNumberArray}</Text>
+                )}
+
+            {/* <Text style={styles.randomContainer}> {randomNumbersArray}</Text> */}
         </View>
+
+
         
     </ScrollView>
   );
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center', 
         backgroundColor: '#aaa', 
-        fontSize: 40,
+        fontSize: 35,
         marginHorizontal: 50,
         ...Platform.select({
             ios: {
@@ -85,8 +91,21 @@ const styles = StyleSheet.create({
 
     randomContainer: {
         flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around', 
+    },
+
+    randomItems: {
+        width: 150,
+        height: 150,
+        borderWidth: 1,
+        margin: 15,
         justifyContent: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: 35,
+        paddingTop: 50,
+        backgroundColor: '#aaa',
     }
 });
 
