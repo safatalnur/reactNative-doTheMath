@@ -12,16 +12,18 @@ import {
 } from 'react-native';
 
 import RandomNumberArray from './randomNumberArray';
+import SumSelectedRandomNumbers from './sumSelectedRandomNumbers';
 // import RandomNumberArray from './randomNumberArray.js';
 
 
 function Games() {
 
     // const [numberCount, setNumberCount] = useState ([]);
-    // const [randomNumber, setRandomNumber] = useState([]);
+    // const [randomNumbers, setRandomNumbers] = useState([]);
 
     const [randomNumbersArray, setRandomNumbersArray] = useState([]);
     // const [randomNumberArray, setRandomNumberArray] = useState([]);
+    
 
     // const randomNumbers = [...Array(6)].map(()=>Math.floor(Math.random()*10));
     // .from({lenght: 6}),
@@ -42,14 +44,23 @@ function Games() {
     };
 
     function reduceArray(){
-        return randomNumbersArray.reduce((acc, curr) => acc + curr, 0)
+        let fourRandomNumbersArray = randomNumbersArray.slice(Math.floor(Math.random()*5))
+        console.log(fourRandomNumbersArray)
+        return fourRandomNumbersArray.reduce((acc, curr) => acc + curr, 0)
+
     }
 
     // const target = 10 + Math.floor(40 * Math.random());
 
-    function handleRandomPress (randomNumber) {
-        console.log(randomNumber)
-    }
+    // function handleRandomPress (randomNumber) {
+    //     // console.log(randomNumber)
+    // }
+
+    // function isSelectedNumber(numberIndex) {
+        
+        
+    //     return setSelected.indexOf(numberIndex) >=0
+    // }
     
   return (
     <ScrollView style={styles.MainContainer}>
@@ -61,16 +72,25 @@ function Games() {
         </View>
 
         
-            <View style={styles.randomContainer}>
-                    {randomNumbersArray.map((randomNumber, index)=>
-                        <RandomNumberArray key={index} number={randomNumber} />
+        <View style={styles.randomContainer}>
+                {randomNumbersArray.map((randomNumber, index)=>
+                    <RandomNumberArray 
+                            key={index} 
+                            number={randomNumber} 
+                            // selected ={props.isSelectedNumber(index)}
+                            
+                    />
                         // <TouchableOpacity key={index} onPress={()=>{handleRandomPress(randomNumber)}}>
                         //     <Text style={styles.randomItems} >{randomNumber}</Text>
                         // </TouchableOpacity>
                     )}
 
                 {/* <Text style={styles.randomContainer}> {randomNumbersArray}</Text> */}
-            </View>
+        </View>
+
+        <View>
+                <SumSelectedRandomNumbers />
+        </View>
         
         
     </ScrollView>
@@ -105,7 +125,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-around', 
     },
-
+    
     // randomItems: {
     //     width: 150,
     //     height: 150,
