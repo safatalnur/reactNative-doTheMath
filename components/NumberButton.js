@@ -8,13 +8,13 @@ function NumberButton(props) {
     // const [disabledNumbers, setdisabledNumbers] = useState(false)
 
     function handleRandomPress() {                                  
-        console.log('hello World:>>', props.id)
+        // console.log('hello World:>>', props.id)
         if (props.disabled) {
             return
         }
         {props.onPress(props.id)}
         // props.selectNumber(props.id)
-        console.log('onPress:>>', props.onPress)
+        // console.log('onPress:>>', props.onPress)
     }
     // // function handleRandomPress() {
     //     function handleRandomPress(numberIndex) {

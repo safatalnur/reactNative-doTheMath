@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import NumberButton from './NumberButton';
-// import SumSelectedRandomNumbers from './sumSelectedRandomNumbers';
 
 
 function Games(props) {
@@ -90,7 +89,7 @@ function Games(props) {
 
     function reduceArray(){
         let fourRandomNumbersArray = randomNumbersArray.slice(Math.floor(Math.random()*5))
-        console.log('randomNumberArray:>>', fourRandomNumbersArray)
+        // console.log('randomNumberArray:>>', fourRandomNumbersArray)
         return fourRandomNumbersArray.reduce((acc, curr) => acc + curr, 0)
     }
 
@@ -173,12 +172,6 @@ function Games(props) {
                 {/* <Text style={styles.randomContainer}> {randomNumbersArray}</Text> */}
         </View>
 
-        {/* <View>
-                <SumSelectedRandomNumbers 
-                            selectedNumbers={[0]}
-                            
-                />
-        </View> */}
         <View>
         <Text>{timer}</Text>
         </View>
