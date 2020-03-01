@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,61 +11,137 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import RandomNumberArray from './randomNumberArray';
-import SumSelectedRandomNumbers from './sumSelectedRandomNumbers';
-// import RandomNumberArray from './randomNumberArray.js';
+import NumberButton from './NumberButton';
+// import SumSelectedRandomNumbers from './sumSelectedRandomNumbers';
 
 
-function Games() {
+function Games(props) {
 
-    // const [numberCount, setNumberCount] = useState ([]);
-    // const [randomNumbers, setRandomNumbers] = useState([]);
 
     const [randomNumbersArray, setRandomNumbersArray] = useState([]);
-    // const [randomNumberArray, setRandomNumberArray] = useState([]);
+    const [selectedNumbers, setSelectedNumbers] = useState([])
+
+    const [timer, setTimer] = useState(props.secondsRemaining)
+    const [startCounter, setStartCounter] = useState(false)
+    console.log(timer, props.secondsRemaining)
+
+    useEffect(() => {
+        console.log('hello world')
+    }, [])
+        
+
+    useEffect(() => {
+        startCounter && setInterval(() => {
+            setTimer(prev => { 
+                if (prev <= 0){
+                    return 0
+                }
+                return prev - 1
+            })
+        }, 1000)
+        
+    }, [startCounter])
+
+
+
     
 
-    // const randomNumbers = [...Array(6)].map(()=>Math.floor(Math.random()*10));
-    // .from({lenght: 6}),
-    // ()=> 1 + Math.floor(10 * Math.random());
-    
-    // const onTarget = () => randomNumbers.reduce(function(a, b) { return a + b; }, 0);
-    // const onTarget = sum(randomNumbers);
 
-    // const onTarget = () => randomNumbers.reduce((acc, curr) => acc + curr,0)
-    // const onTarget = () => [randomNumbers].(Math.sum(randomNumbers))
+
+    // const decrement = (count) => {
+        
+    //     let z = setInterval(()=>{
+    //         count > -1 && setTimer((prev) => {
+    //             console.log(prev - 1)
+    //             return prev - 1;
+    //         }
+    //         // , () => {
+    //         //     if (this.state.remainingSeconds === 0) {
+    //         //         clearInterval(this.intervalId)
+    //         //     }
+    //         // }
+    //         )
+    //     }, 1000)
+
+    //     console.log('seconds left: ', count)
+
+    //     if (count < 0){
+    //         clearInterval(z)
+    //     }
+
+
+    // }
+
+    // useEffect(() => {
+    //     decrement(timer)
+    // }, [timer])
+    
+    
 
     function handlePress() {
-        const newRandomNumbers = [...Array(6)].map(()=>Math.floor(Math.random()*10));
+        const newRandomNumbers = [...Array(6)].map(()=>1+Math.floor(Math.random()*10));
         setRandomNumbersArray(newRandomNumbers);
         // setTarget(sum.randomNumbers);
-        // return setTarget;
+        // return setTarget
         // setTarget(10 + Math.floor(40 * Math.random()));
+
+        setStartCounter(true)
     };
 
     function reduceArray(){
         let fourRandomNumbersArray = randomNumbersArray.slice(Math.floor(Math.random()*5))
-        console.log(fourRandomNumbersArray)
+        console.log('randomNumberArray:>>', fourRandomNumbersArray)
         return fourRandomNumbersArray.reduce((acc, curr) => acc + curr, 0)
-
     }
 
-    // const target = 10 + Math.floor(40 * Math.random());
+    let expectedNumber = useMemo(() => {
+        return reduceArray()
+    }, [randomNumbersArray])
 
-    // function handleRandomPress (randomNumber) {
-    //     // console.log(randomNumber)
-    // }
 
-    // function isSelectedNumber(numberIndex) {
-        
-        
-    //     return setSelected.indexOf(numberIndex) >=0
-    // }
+    function isSelectedNumber (numberIndex) {
+        return selectedNumbers.indexOf(numberIndex) >=0
+    }
+
+    // function selectNumber(numberIndex) {
+    //     console.log('selectNumber:>>', numberIndex, selectedNumbers)
     
+    //         // setSelectedNumbers(previousState => ({
+    //         //     selectedNumbers: [...previousState.selectedNumbers, numberIndex]
+    //         // }))
+    //         setSelectedNumbers(
+    //             [...selectedNumbers, numberIndex]
+    //         )
+
+    //         // console.log('setSelectedNumver:>>>>>>>)
+            
+        
+    // }
+
+    // selectNumber = (numberIndex) => {
+    //     this.setState((prevState)=> {
+    //         return { selectedIds: [...prevState.selectedIds, numberIndex]}
+    //     })
+    // }
+
+    //console.log(selectNumber(5))
+
+    const selectNumber = (numberIndex) => {
+        setSelectedNumbers(prev => {
+            console.log('selectNumber:>>',prev, numberIndex)
+            return [...prev, numberIndex]
+        })
+    }
+
+
+
+    
+
+
   return (
     <ScrollView style={styles.MainContainer}>
         <View style={styles.container}>
-            <Text style={styles.target}>The number is : {reduceArray()}</Text>
+            <Text style={styles.target}>The number is : {expectedNumber}</Text>
             <Button title="Press Me" onPress={() => {
                 handlePress()
             }}></Button>
@@ -74,11 +150,20 @@ function Games() {
         
         <View style={styles.randomContainer}>
                 {randomNumbersArray.map((randomNumber, index)=>
-                    <RandomNumberArray 
+                    <NumberButton 
                             key={index} 
-                            number={randomNumber} 
-                            // selected ={props.isSelectedNumber(index)}
-                            
+                            id={index}
+                            number={randomNumber}
+                            disabled = {isSelectedNumber(index)}
+                            onPress = {selectNumber}
+                            // onPress = {()=> {
+                                // console.log('hello World:>>', index)
+                                
+                                // const nextSelectedNumbers = [...selectedNumbers]
+                                // nextSelectedNumbers[index] = true
+                                // setSelectedNumbers(nextSelectedNumbers)
+                            // }}
+                            // selected ={selectedNumbers[index]}
                     />
                         // <TouchableOpacity key={index} onPress={()=>{handleRandomPress(randomNumber)}}>
                         //     <Text style={styles.randomItems} >{randomNumber}</Text>
@@ -88,8 +173,14 @@ function Games() {
                 {/* <Text style={styles.randomContainer}> {randomNumbersArray}</Text> */}
         </View>
 
+        {/* <View>
+                <SumSelectedRandomNumbers 
+                            selectedNumbers={[0]}
+                            
+                />
+        </View> */}
         <View>
-                <SumSelectedRandomNumbers />
+        <Text>{timer}</Text>
         </View>
         
         

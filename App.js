@@ -3,7 +3,7 @@ import Games from './components/Games.js';
 
 function App () {
   return (
-      <Games/>
+      <Games secondsRemaining={10}/>
     )
   };
 
